@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Arm64.MobileApp.XamarinForms.MainPage"
+             xmlns:syncfusion="clr-namespace:Syncfusion.SfChart.XForms;assembly=Syncfusion.SfChart.XForms"
+             xmlns:viewModels="clr-namespace:Arm64.MobileApp.XamarinForms.ViewModels">
+
+    <ContentPage.BindingContext>
+        <viewModels:MainViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Margin"
+                    Value="2,2,2,0" />
+            <Setter Property="FontAttributes"
+                    Value="Bold" />
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="FontAttributes"
+                    Value="Bold" />
+        </Style>
+
+        <Style TargetType="syncfusion:SfChart">
+            <Setter Property="Margin"
+                    Value="10" />
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!--Buttons-->
+        <StackLayout Grid.Row="0"
+                     Grid.Column="0"
+                     Orientation="Vertical">
+            <Button Text="Run calculations"
+                    Command="{Binding RunCalculationsCommand}" />
+            <Button Text="Plot results"
+                    Command="{Binding PlotResultsCommand}" />
+        </StackLayout>
+
+        <!--Label-->
+        <Label Grid.Row="0"
+               Grid.Column="1"
+               Text="{Binding ComputationTime, Mode=OneWay}" />
+
+        <!--Chart-->
+        <syncfusion:SfChart Grid.Row="1"
+                            Grid.ColumnSpan="2">
+            <syncfusion:SfChart.PrimaryAxis>
+                <syncfusion:NumericalAxis>
+                    <syncfusion:NumericalAxis.Title>
+                        <syncfusion:ChartAxisTitle Text="Trial number"
+                                                   FontSize="16" />
+                    </syncfusion:NumericalAxis.Title>
+                </syncfusion:NumericalAxis>
+            </syncfusion:SfChart.PrimaryAxis>
+
+            <syncfusion:SfChart.SecondaryAxis>
+                <syncfusion:NumericalAxis Maximum="3000"
+                                          Minimum="0">
+                    <syncfusion:NumericalAxis.Title>
+                        <syncfusion:ChartAxisTitle Text="Computation time [ms]"
+                                                   FontSize="16" />
+                    </syncfusion:NumericalAxis.Title>
+                </syncfusion:NumericalAxis>
+            </syncfusion:SfChart.SecondaryAxis>
+
+            <syncfusion:LineSeries EnableAnimation="True"
+                                   Label="Computation time"
+                                   ItemsSource="{Binding DataPoints}"
+                                   XBindingPath="X"
+                                   YBindingPath="Y" />
+        </syncfusion:SfChart>
+    </Grid>
+</ContentPage>
